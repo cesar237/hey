@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"net/http/httptrace"
 	"net/url"
+	"net/dial"
 	"os"
 	"sync"
 	"time"
@@ -242,7 +243,7 @@ func (b *Work) runWorkers() {
 			InsecureSkipVerify: true,
 			ServerName:         b.Request.Host,
 		},
-		DialContext: (&net.Dialer{
+		DialContext: (&dial.Dialer{
         Timeout:   30 * time.Second,
         KeepAlive: 30 * time.Second,
         LocalAddr: b.LocalAddr,
