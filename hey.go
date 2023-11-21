@@ -207,6 +207,15 @@ func main() {
 		req.Host = *hostHeader
 	}
 
+	// set localAddr if set
+	var localIPAddr net.IPAddr
+	if *localAddr != "" {
+		addr, err := net.ResolveIPAddr("ip", localAddr)
+		if err != nil {
+			usageAndExit(err.Error())
+		}
+	}
+
 	ua := header.Get("User-Agent")
 	if ua == "" {
 		ua = heyUA
