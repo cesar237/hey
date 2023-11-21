@@ -57,6 +57,8 @@ type Work struct {
 	// Request and RequestData are cloned for each request.
 	RequestFunc func() *http.Request
 
+	LocalAddr string
+
 	// N is the total number of requests to make.
 	N int
 
@@ -240,6 +242,12 @@ func (b *Work) runWorkers() {
 			InsecureSkipVerify: true,
 			ServerName:         b.Request.Host,
 		},
+		DialContext: (&net.Dialer{
+        Timeout:   30 * time.Second,
+        KeepAlive: 30 * time.Second,
+        LocalAddr: b.LocalAddr,
+        DualStack: true,
+    }).DialContext,
 		MaxIdleConnsPerHost: min(b.C, maxIdleConn),
 		DisableCompression:  b.DisableCompression,
 		DisableKeepAlives:   b.DisableKeepAlives,

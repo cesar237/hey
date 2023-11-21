@@ -47,6 +47,7 @@ var (
 	contentType = flag.String("T", "text/html", "")
 	authHeader  = flag.String("a", "", "")
 	hostHeader  = flag.String("host", "", "")
+	localAddr   = flag.String("i", "", "")
 	userAgent   = flag.String("U", "", "")
 
 	output = flag.String("o", "", "")
@@ -91,6 +92,7 @@ Options:
   -U  User-Agent, defaults to version "hey/0.0.1".
   -a  Basic authentication, username:password.
   -x  HTTP Proxy address as host:port.
+	-i  Local address to use as IP adress.
   -h2 Enable HTTP/2.
 
   -host	HTTP Host header.
@@ -224,6 +226,7 @@ func main() {
 	w := &requester.Work{
 		Request:            req,
 		RequestBody:        bodyAll,
+		LocalAddr:					localAddr,
 		N:                  num,
 		C:                  conc,
 		QPS:                q,
